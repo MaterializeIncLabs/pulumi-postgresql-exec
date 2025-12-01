@@ -43,6 +43,7 @@ func main() {
 }
 
 type postgresqlExecProvider struct {
+	rpc.UnimplementedResourceProviderServer
 	host      *provider.HostClient
 	connStr   string
 	connCache *pgconn.PgConn
@@ -229,6 +230,26 @@ func (p *postgresqlExecProvider) GetSchema(ctx context.Context, req *rpc.GetSche
 
 func (p *postgresqlExecProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, error) {
 	return &pbempty.Empty{}, nil
+}
+
+func (p *postgresqlExecProvider) Attach(_ context.Context, req *rpc.PluginAttach) (*pbempty.Empty, error) {
+	return &pbempty.Empty{}, nil
+}
+
+func (p *postgresqlExecProvider) Call(_ context.Context, req *rpc.CallRequest) (*rpc.CallResponse, error) {
+	return nil, fmt.Errorf("Unknown Call token '%s'", req.GetTok())
+}
+
+func (p *postgresqlExecProvider) GetMapping(_ context.Context, req *rpc.GetMappingRequest) (*rpc.GetMappingResponse, error) {
+	return &rpc.GetMappingResponse{}, nil
+}
+
+func (p *postgresqlExecProvider) GetMappings(_ context.Context, req *rpc.GetMappingsRequest) (*rpc.GetMappingsResponse, error) {
+	return &rpc.GetMappingsResponse{}, nil
+}
+
+func (p *postgresqlExecProvider) Parameterize(_ context.Context, req *rpc.ParameterizeRequest) (*rpc.ParameterizeResponse, error) {
+	return &rpc.ParameterizeResponse{}, nil
 }
 
 func (p *postgresqlExecProvider) conn(ctx context.Context) (*pgconn.PgConn, error) {

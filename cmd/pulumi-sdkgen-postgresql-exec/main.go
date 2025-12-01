@@ -15,17 +15,15 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/pulumi/pulumi/sdk/v3/go/common/tools"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
-
 	"github.com/pkg/errors"
 	pygen "github.com/pulumi/pulumi/pkg/v3/codegen/python"
 	"github.com/pulumi/pulumi/pkg/v3/codegen/schema"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/tools"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 )
 
 func main() {
@@ -45,8 +43,8 @@ func run(version string) error {
 		Version:           version,
 		Description:       "A Pulumi package for executing arbitrary SQL queries against a PostgreSQL database.",
 		License:           "Apache-2.0",
-		Repository:        "https://github.com/benesch/pulumi-postgresql-exec",
-		PluginDownloadURL: fmt.Sprintf("https://github.com/benesch/pulumi-postgresql-exec/releases/download/v%s/", version),
+		Repository:        "https://github.com/MaterializeIncLabs/pulumi-postgresql-exec",
+		PluginDownloadURL: fmt.Sprintf("https://github.com/MaterializeIncLabs/pulumi-postgresql-exec/releases/download/v%s/", version),
 		Provider: schema.ResourceSpec{
 			InputProperties: map[string]schema.PropertySpec{
 				"host":     {TypeSpec: schema.TypeSpec{Type: "string"}},
@@ -85,8 +83,8 @@ func run(version string) error {
 				RequiredInputs: []string{"createSql", "destroySql"},
 			},
 		},
-		Language: map[string]json.RawMessage{
-			"python": json.RawMessage("{}"),
+		Language: map[string]schema.RawMessage{
+			"python": schema.RawMessage("{}"),
 		},
 	}
 	ppkg, err := schema.ImportSpec(spec, nil)
